@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context=".List_Surat">
+
+    <item android:id="@+id/action_search"
+
+        android:title="search"
+
+        app:actionViewClass="android.support.v7.widget.SearchView"
+
+        android:icon="@drawable/ic_search_black_24dp"
+
+        app:searchHintIcon="@drawable/ic_search_black_24dp"
+
+        app:showAsAction="ifRoom|collapseActionView" />
+    <item android:id="@+id/bookmark"
+
+        android:title="bookmark"
+        android:icon="@drawable/ic_bookmark_black_24dp"
+
+        app:searchHintIcon="@drawable/ic_bookmark_black_24dp"
+
+        app:showAsAction="ifRoom" />
+
+</menu>

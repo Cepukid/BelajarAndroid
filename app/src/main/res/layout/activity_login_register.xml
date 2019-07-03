@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".LoginRegister"
+    android:background="@drawable/bg_login">
+    <ImageView
+        android:layout_marginTop="50dp"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:layout_width="200dp"
+        android:layout_height="150dp"
+        android:src="@drawable/logo_dasar"/>
+    <TextView
+        android:textColor="#FFFF"
+        android:textSize="22sp"
+        android:textAlignment="center"
+        android:text="Sudah Punya akun?\n Langsung klik 'masuk',\n Jika Belum klik 'Daftar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"/>
+    <LinearLayout
+        android:layout_marginBottom="30dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:weightSum="2"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true">
+        <Button
+            android:textStyle="bold"
+            android:textColor="#FFFF"
+            android:layout_marginLeft="5dp"
+            android:layout_marginRight="5dp"
+            android:background="#066c5f"
+            android:layout_weight="1"
+            android:id="@+id/Daftar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Daftar"
+            android:layout_marginBottom="@dimen/activity_vertical_margin"/>
+        <Button
+            android:textStyle="bold"
+            android:textColor="#FFFF"
+            android:layout_marginRight="5dp"
+            android:layout_marginLeft="5dp"
+            android:background="#066c5f"
+            android:layout_weight="1"
+            android:id="@+id/Login"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Login"
+            android:layout_marginBottom="@dimen/activity_vertical_margin"/>
+    </LinearLayout>
+
+
+</RelativeLayout>
