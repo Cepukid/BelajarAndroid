@@ -31,8 +31,8 @@ public class BayarActivity extends AppCompatActivity implements View.OnClickList
     private static final int PICK_FILE_REQUEST = 1;
     private static final String TAG = MainActivity.class.getSimpleName();
     private String selectedFilePath;
-    private String SERVER_URL = "http://192.168.43.45:81/aa/UploadToServer.php";
-    ImageView ivAttachment;
+    private String SERVER_URL = "http://sahabatmengaji.com/uploadgambar";
+    ImageView ivAttachment,gambar;
     Button bUpload;
     ProgressDialog dialog;
 
@@ -42,6 +42,7 @@ public class BayarActivity extends AppCompatActivity implements View.OnClickList
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_bayar);
         ivAttachment = findViewById(R.id.ivAttachment);
+        gambar=findViewById(R.id.tampilgambar);
         bUpload = findViewById(R.id.b_upload);
         ivAttachment.setOnClickListener(this);
         bUpload.setOnClickListener(this);
@@ -103,7 +104,7 @@ public class BayarActivity extends AppCompatActivity implements View.OnClickList
 
                     if(imgFile.exists()){
                         Bitmap myBitmap = BitmapFactory.decodeFile(imgFile.getAbsolutePath());
-                        ivAttachment.setImageBitmap(myBitmap);
+                        gambar.setImageBitmap(myBitmap);
 
                     }
                 }else{
@@ -192,8 +193,6 @@ public class BayarActivity extends AppCompatActivity implements View.OnClickList
                 String serverResponseMessage = connection.getResponseMessage();
 
                 Log.i(TAG, "Server Response is: " + serverResponseMessage + ": " + serverResponseCode);
-
-                //response code of 200 indicates the server status OK
                 if(serverResponseCode == 200){
                     runOnUiThread(new Runnable() {
                         @Override

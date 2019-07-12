@@ -19,9 +19,9 @@ public class PenjelasanHaji extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_penjelasan_haji);
-        Deskripsi=findViewById(R.id.penjelasan);
-        Nama=findViewById(R.id.namabarang);
-        foto=findViewById(R.id.fotostore);
+        Deskripsi=findViewById(R.id.penjelasanhaji);
+        Nama=findViewById(R.id.namatravel);
+        foto=findViewById(R.id.fotohaji);
         Intent i = getIntent();
         ItemHaji item = (ItemHaji)i.getSerializableExtra("data");
         Nama.setText(item.getNama());

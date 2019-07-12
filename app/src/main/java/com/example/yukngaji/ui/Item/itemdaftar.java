@@ -1,7 +1,7 @@
 package com.example.yukngaji.ui.Item;
 
 public class itemdaftar {
-    private String Jenjang,Alamat,Tanggal,PrefGuru,Paket,Provinsi,Kecamatan,kota,nama,email,nohp;
+    private String Jenjang,Alamat,Tanggal,PrefGuru,Paket,Provinsi,Kecamatan,kota,nama,email,nohp,token;
 
     public String getJenjang() {
         return Jenjang;
@@ -89,5 +89,13 @@ public class itemdaftar {
 
     public void setEmail(String email) {
         this.email = email;
+    }
+
+    public String getToken() {
+        return token;
+    }
+
+    public void setToken(String token) {
+        this.token = token;
     }
 }

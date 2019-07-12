@@ -12,28 +12,15 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
             <ImageView
-                android:id="@+id/fotostore"
+                android:id="@+id/fotohaji"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:adjustViewBounds="true"
                 android:src="@drawable/yukngaji"
                 android:scaleType="fitXY"/>
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:padding="8dp"
-                android:text="6 Photos"
-                android:gravity="center_vertical"
-                android:drawablePadding="4dp"
-                android:textAppearance="@style/TextAppearance.AppCompat.Small"
-                android:background="#4D000000"
-                android:textColor="@android:color/white"
-                android:layout_marginLeft="@dimen/activity_horizontal_margin"
-                android:layout_marginBottom="@dimen/activity_vertical_margin"
-                android:layout_gravity="bottom" />
         </FrameLayout>
         <TextView
-            android:id="@+id/namabarang"
+            android:id="@+id/namatravel"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textSize="25sp"
@@ -43,7 +30,7 @@
 
             android:textColor="@android:color/black"/>
         <TextView
-            android:id="@+id/penjelasan"
+            android:id="@+id/penjelasanhaji"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginLeft="@dimen/activity_horizontal_margin"
@@ -51,14 +38,6 @@
             android:layout_marginBottom="@dimen/activity_vertical_margin"
             android:lineSpacingMultiplier="1"
             android:textColor="@android:color/black"/>
-        <Button
-            android:background="@android:color/transparent"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="@dimen/activity_vertical_margin"
-            android:layout_marginLeft="@dimen/activity_horizontal_margin"
-            android:layout_marginRight="@dimen/activity_horizontal_margin"
-            android:text="Chat WA " />
         <Button
             android:background="@android:color/transparent"
             android:layout_width="match_parent"

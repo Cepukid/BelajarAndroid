@@ -14,4 +14,7 @@
     <color name="grey_60">#666666</color>
     <color name="teal_200">#80CBC4</color>
     <color name="teal_700">#1FFFFF</color>
+    <color name="grey_90">#263238</color>
+    <color name="grey_10">#e6e6e6</color>
+    <color name="grey_5">#f2f2f2</color>
 </resources>

@@ -30,10 +30,19 @@ import android.widget.Toast;
 import com.balysv.materialripple.MaterialRippleLayout;
 import com.example.yukngaji.setting.UserPreference;
 import com.example.yukngaji.ui.Item.Image;
+import com.example.yukngaji.ui.Item.ItemNotif;
 import com.example.yukngaji.ui.Utils.Tools;
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.auth.GetTokenResult;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.iid.FirebaseInstanceId;
 import com.google.firebase.iid.InstanceIdResult;
 
@@ -50,13 +59,6 @@ public class MenuUtama extends AppCompatActivity
     private ViewPager viewPager;
     private LinearLayout layout_dots;
     private AdapterImageSlider adapterImageSlider;
-    private static int[] array_image_product = {
-            R.drawable.logo_,
-            R.drawable.logo_,
-            R.drawable.logo_,
-            R.drawable.logo_,
-            R.drawable.logo_,
-    };
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -72,6 +74,17 @@ public class MenuUtama extends AppCompatActivity
         Chat=findViewById(R.id.Chat);
         Yukngaji=findViewById(R.id.YukNgaji);
         Raport=findViewById(R.id.Rapot);
+        preference=new UserPreference(this);
+        FirebaseUser user = mAuth.getCurrentUser();
+        user.getIdToken(false).addOnSuccessListener(new OnSuccessListener<GetTokenResult>() {
+            @Override
+            public void onSuccess(GetTokenResult result) {
+                Object isGuru = result.getClaims().get("guru");
+                if(isGuru!=null){
+                    preference.setGuru(true);
+                }
+            }
+        });
         initComponent();
         //MobileAds.initialize(this, "ca-app-pub-3940256099942544~3347511713");
 //        AdView adView = new AdView(this);
@@ -82,7 +95,6 @@ public class MenuUtama extends AppCompatActivity
         View headerView = navigationView.getHeaderView(0);
         nama=headerView.findViewById(R.id.namaprofil);
         email=headerView.findViewById(R.id.emailprofil);
-        preference=new UserPreference(this);
         nama.setText(preference.getNama());
         email.setText(preference.getEmail());
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
@@ -103,12 +115,18 @@ public class MenuUtama extends AppCompatActivity
         Chat.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                UserPreference preference=new UserPreference(MenuUtama.this);
-                if(preference.getCekBayar()){
-                    Intent intent=new Intent(MenuUtama.this,ChatActivity.class);
+                if(preference.getGuru()){
+                    Intent intent=new Intent(MenuUtama.this,ListChatMurid.class);
                     startActivity(intent);
                 }else {
-                    Toast.makeText(MenuUtama.this,"Maaf Anda Belum Mendaftar", Toast.LENGTH_LONG).show();
+                    if(preference.getCekBayar()){
+                        Intent intent=new Intent(MenuUtama.this,ChatActivity.class);
+                        intent.putExtra("uid",preference.getUidGuru() );
+                        intent.putExtra("nama",preference.getNamaGuru());
+                        startActivity(intent);
+                    }else {
+                        Toast.makeText(MenuUtama.this,"Maaf Anda Belum Mendaftar", Toast.LENGTH_LONG).show();
+                    }
                 }
             }
         });
@@ -148,13 +166,12 @@ public class MenuUtama extends AppCompatActivity
                 UserPreference preference=new UserPreference(MenuUtama.this);
                 if(preference.getCekDaftar()& preference.getTunggu()){
                     if(preference.getCekBayar()){
-
                     }
                     else {
                     Intent intent=new Intent(MenuUtama.this,TungguKonfirmasi.class);
                     startActivity(intent);}
                 }else if(preference.getCekDaftar()){
-                    Intent intent=new Intent(MenuUtama.this,BayarActivity.class);
+                    Intent intent=new Intent(MenuUtama.this,Pembayaran.class);
                     startActivity(intent);
                 }else {
                     Intent intent=new Intent(MenuUtama.this,Silabus.class);
@@ -196,7 +213,9 @@ public class MenuUtama extends AppCompatActivity
         int id = item.getItemId();
 
         //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
+        if (id == R.id.action_notifications) {
+            Intent intent=new Intent(MenuUtama.this,NotifikasiActivity.class);
+            startActivity(intent);
             return true;
         }
 
@@ -222,6 +241,9 @@ public class MenuUtama extends AppCompatActivity
             startActivity(intent);
         } else if (id==R.id.nav_logout){
             mAuth.signOut();
+            preference.setDaftar(false);
+            preference.setTunggu(false);
+            preference.setCekBayar(false);
             Intent intent=new Intent(MenuUtama.this,LoginRegister.class);
             startActivity(intent);
             finish();
@@ -236,21 +258,29 @@ public class MenuUtama extends AppCompatActivity
         layout_dots =findViewById(R.id.layout_dots);
         viewPager =  findViewById(R.id.pager);
         adapterImageSlider = new AdapterImageSlider(this, new ArrayList<Image>());
+        DatabaseReference reference;
+        final List<Image> items=new ArrayList<>();
+        reference = FirebaseDatabase.getInstance().getReference();
+        reference.child("Promo").addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                for (DataSnapshot noteDataSnapshot : dataSnapshot.getChildren()) {
+                    ItemNotif murid = noteDataSnapshot.getValue(ItemNotif.class);
+                    Image obj = new Image();
+                    obj.image = murid.getGambar();
+                    items.add(obj);
+                    adapterImageSlider.setItems(items);
+                    viewPager.setAdapter(adapterImageSlider);
+                    viewPager.setCurrentItem(0);
+                    addBottomDots(layout_dots, adapterImageSlider.getCount(), 0);
+                }
+            }
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
 
-        List<Image> items = new ArrayList<>();
-        for (int i : array_image_product) {
-            Image obj = new Image();
-            obj.image = i;
-            obj.imageDrw = getResources().getDrawable(obj.image);
-            items.add(obj);
-        }
-
-        adapterImageSlider.setItems(items);
-        viewPager.setAdapter(adapterImageSlider);
-
+            }
+        });
         // displaying selected image first
-        viewPager.setCurrentItem(0);
-        addBottomDots(layout_dots, adapterImageSlider.getCount(), 0);
         viewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override
             public void onPageScrolled(int pos, float positionOffset, int positionOffsetPixels) {

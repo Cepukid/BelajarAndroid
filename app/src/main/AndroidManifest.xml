@@ -14,13 +14,23 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".TungguKonfirmasi"></activity>
-        <activity android:name=".TentangKamiActivity"
-            android:theme="@style/AppTheme.NoActionBar"/>
+        <activity android:name=".Pembayaran"></activity>
+        <activity
+            android:name=".PenjelasanPromoActivity"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity android:name=".PromoActivity" />
+        <activity android:name=".ListMurid" />
+        <activity android:name=".ListChatMurid" />
+        <activity android:name=".TungguKonfirmasi" />
+        <activity
+            android:name=".TentangKamiActivity"
+            android:theme="@style/AppTheme.NoActionBar" />
         <activity android:name=".FAQActivity" />
         <activity android:name=".RaportActivity" />
         <activity android:name=".PenjelasanHaji" />
-        <activity android:name=".Silabus" />
+        <activity
+            android:name=".Silabus"
+            android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".Penjelasan"
             android:theme="@style/AppTheme.NoActionBar" />

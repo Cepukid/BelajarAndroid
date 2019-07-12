@@ -3,8 +3,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
-    tools:context=".FragmentSilabus.Kelas1">
+    tools:context=".FragmentSilabus.Kelas2"
+    android:orientation="vertical">
     <LinearLayout
         android:layout_marginTop="@dimen/activity_horizontal_margin"
         android:layout_width="match_parent"
@@ -25,7 +25,7 @@
         <TextView
             android:layout_gravity="center_vertical"
             android:textSize="@dimen/fontsize"
-            android:text="Iqra’ Jilid 1 dan 2"
+            android:text="Iqra Jilid 3 dan 4"
             android:layout_weight="1"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"/>
@@ -101,11 +101,48 @@
         <TextView
             android:layout_gravity="center_vertical"
             android:textSize="@dimen/fontsize"
-            android:text="Tauhid ( Materi Tambahan )"
+            android:text="Tauhid"
             android:layout_weight="1"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"/>
     </LinearLayout>
-
+    <LinearLayout
+        android:layout_marginTop="@dimen/activity_horizontal_margin"
+        android:layout_marginRight="@dimen/activity_horizontal_margin"
+        android:layout_marginLeft="@dimen/activity_horizontal_margin"
+        android:layout_width="match_parent"
+        android:layout_height="50dp">
+        <ImageView
+            android:layout_weight="3"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:src="@drawable/tajwid"/>
+        <TextView
+            android:layout_gravity="center_vertical"
+            android:textSize="@dimen/fontsize"
+            android:text="Tajwid ( Akhir Tahun / Iqra’ 4 )"
+            android:layout_weight="1"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
+    </LinearLayout>
+    <LinearLayout
+        android:layout_marginTop="@dimen/activity_horizontal_margin"
+        android:layout_marginRight="@dimen/activity_horizontal_margin"
+        android:layout_marginLeft="@dimen/activity_horizontal_margin"
+        android:layout_width="match_parent"
+        android:layout_height="50dp">
+        <ImageView
+            android:layout_weight="3"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:src="@drawable/imla"/>
+        <TextView
+            android:layout_gravity="center_vertical"
+            android:textSize="@dimen/fontsize"
+            android:text="Imla’"
+            android:layout_weight="1"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
+    </LinearLayout>
 </LinearLayout>
 </ScrollView>

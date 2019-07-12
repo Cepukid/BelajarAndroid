@@ -26,12 +26,12 @@ public class HajiActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_haji);
         rvView = findViewById(R.id.rv_haji);
-        setTitle("asdasd");
+        setTitle("List Travel Haji");
         Tampildata();
     }
     public void Tampildata(){
         reference = FirebaseDatabase.getInstance().getReference();
-        reference.child("Haji").addValueEventListener(new ValueEventListener() {
+        reference.child("Travel").addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 listhaji=new ArrayList<>();

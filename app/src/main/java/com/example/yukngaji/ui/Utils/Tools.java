@@ -9,9 +9,10 @@ import com.bumptech.glide.load.engine.DiskCacheStrategy;
 
 public class Tools {
 
-    public static void displayImageOriginal(Context ctx, ImageView img, @DrawableRes int drawable) {
+    public static void displayImageOriginal(Context ctx, ImageView img, String url) {
         try {
-            Glide.with(ctx).load(drawable)
+            Glide.with(ctx).load(url)
+                    .centerCrop()
                     .diskCacheStrategy(DiskCacheStrategy.NONE)
                     .into(img);
         } catch (Exception e) {

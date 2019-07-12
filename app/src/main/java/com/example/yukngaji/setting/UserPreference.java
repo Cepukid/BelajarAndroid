@@ -14,6 +14,9 @@ public class UserPreference {
     private static final String Cekbayar = "cekbayar";
     private static final String Cekdaftar = "cekdaftar";
     private static final String Tunggu = "Tunggu";
+    private static final String Guru = "Guru";
+    private static final String NamaGuru = "NamaGuru";
+    private static final String UidGuru = "UidGuru";
     private final SharedPreferences preferences;
     public UserPreference(Context context) {
         preferences = context.getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE);
@@ -36,12 +39,29 @@ public class UserPreference {
         Boolean cek=preferences.getBoolean(Tunggu, false);
         return cek;
     }
+    public void setNamaGuru(String namaGuru){
+        SharedPreferences.Editor editor = preferences.edit();
+        editor.putString(NamaGuru, namaGuru);
+        editor.apply();
+    }
+    public String getNamaGuru(){
+        String cek=preferences.getString(NamaGuru, "Guru");
+        return cek;
+    }
+    public void setUidGuru(String uidGuru){
+        SharedPreferences.Editor editor = preferences.edit();
+        editor.putString(UidGuru, uidGuru);
+        editor.apply();
+    }
+    public String getUidGuru(){
+        String cek=preferences.getString(UidGuru, "kosong");
+        return cek;
+    }
 
     public String getNama() {
         String nama=preferences.getString(Nama,"");
         return nama;
     }
-
     public String getEmail() {
         String email=preferences.getString(Email,"");
         return email;
@@ -83,6 +103,16 @@ public class UserPreference {
         Boolean cek=preferences.getBoolean(Cekdaftar, false);
         return cek;
     }
+    public Boolean getGuru(){
+        Boolean cek=preferences.getBoolean(Guru, false);
+        return cek;
+    }
+    public void setGuru(Boolean guru){
+        SharedPreferences.Editor editor = preferences.edit();
+        editor.putBoolean(Guru, guru);
+        editor.apply();
+    }
+
     public void setDataMengaji(String Jenjang,String Tanggal,String PrefGuru,String Paket){
         SharedPreferences.Editor editor = preferences.edit();
         editor.putString("Jenjang", Jenjang);

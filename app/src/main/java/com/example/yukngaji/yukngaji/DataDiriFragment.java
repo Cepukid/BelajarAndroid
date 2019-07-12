@@ -16,13 +16,18 @@ import android.widget.EditText;
 import android.widget.TextView;
 
 import com.example.yukngaji.BayarActivity;
+import com.example.yukngaji.Pembayaran;
 import com.example.yukngaji.R;
 import com.example.yukngaji.setting.UserPreference;
 import com.example.yukngaji.ui.Item.itemdaftar;
+import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.iid.FirebaseInstanceId;
+import com.google.firebase.iid.InstanceIdResult;
 import com.stepstone.stepper.BlockingStep;
 import com.stepstone.stepper.StepperLayout;
 import com.stepstone.stepper.VerificationError;
@@ -123,10 +128,12 @@ public class DataDiriFragment extends Fragment implements BlockingStep {
                 String getUserID = FirebaseAuth.getInstance().getCurrentUser().getUid();
                 FirebaseDatabase database = FirebaseDatabase.getInstance();
                 UserPreference preference=new UserPreference(getActivity());
+                preference.setNama(txt_nama.getText().toString());
                 itemdaftar daftar=preference.getitem();
                 daftar.setNama(txt_nama.getText().toString());
                 daftar.setNohp(txt_nohp.getText().toString());
                 daftar.setEmail(txt_email.getText().toString());
+                daftar.setToken(FirebaseInstanceId.getInstance().getToken());
                 DatabaseReference getReference;
                 getReference = database.getReference();
                 getReference.child("Murid").child(getUserID)
@@ -136,7 +143,7 @@ public class DataDiriFragment extends Fragment implements BlockingStep {
                             public void onSuccess(Object o) {
                                 UserPreference preference=new UserPreference(getActivity());
                                 preference.setDaftar(true);
-                                Intent intent=new Intent(getActivity(), BayarActivity.class);
+                                Intent intent=new Intent(getActivity(), Pembayaran.class);
                                 startActivity(intent);
                                 getActivity().finish();
                             }
