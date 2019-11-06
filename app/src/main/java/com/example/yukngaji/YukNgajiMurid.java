@@ -1,8 +1,9 @@
 package com.example.yukngaji;
 
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
+
+import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.yukngaji.ui.Adapter.MyStepperAdapter;
 import com.stepstone.stepper.StepperLayout;

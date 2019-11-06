@@ -6,9 +6,13 @@ import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
+import android.media.RingtoneManager;
+import android.net.Uri;
 import android.os.Build;
-import android.support.v4.app.NotificationCompat;
+import android.text.Html;
 import android.util.Log;
+
+import androidx.core.app.NotificationCompat;
 
 import com.example.yukngaji.setting.UserPreference;
 import com.google.firebase.database.DatabaseReference;
@@ -17,7 +21,7 @@ import com.google.firebase.messaging.FirebaseMessagingService;
 import com.google.firebase.messaging.RemoteMessage;
 
 public class FirebaseCloudMessagingService extends FirebaseMessagingService {
-    public static String CHANNEL_ID ;
+    public static String CHANNEL_ID = "Channel_1";
     public static CharSequence CHANNEL_NAME = "Sahabat mengaji";
     public static final int NOTIFICATION_ID = 1;
     UserPreference preference;
@@ -27,23 +31,26 @@ public class FirebaseCloudMessagingService extends FirebaseMessagingService {
         Log.d(TAG, "From: " + remoteMessage.getFrom());
         if (remoteMessage.getData().size() > 0) {
             Log.d(TAG, "Message data payload: " + remoteMessage.getData());
-                CHANNEL_ID=remoteMessage.getNotification().getChannelId();
+//                CHANNEL_ID=remoteMessage.getNotification().getChannelId();
+            if (remoteMessage.getData().get("type") != null) {
+                Intent intent = new Intent(getApplicationContext(), NotifikasiActivity.class);
+                notif(remoteMessage.getData().get("title"), remoteMessage.getData().get("body"), intent);
+            } else {
                 Intent intent = new Intent(getApplicationContext(), MenuUtama.class);
-                notif(remoteMessage.getData().get("title"),remoteMessage.getData().get("body"),intent);
-                if (remoteMessage.getData().get("bayar")!=null) {
+                notif(remoteMessage.getData().get("title"), remoteMessage.getData().get("body"), intent);
+                if (remoteMessage.getData().get("bayar") != null) {
                     if (remoteMessage.getData().get("bayar").equals("true")) {
-                        preference=new UserPreference(this);
+                        preference = new UserPreference(this);
                         preference.setCekBayar(true);
                         preference.setTunggu(true);
                         preference.setUidGuru(remoteMessage.getData().get("uidguru"));
-                    }
-                    else if (remoteMessage.getData().get("bayar").equals("false")) {
-                        preference=new UserPreference(this);
+                    } else if (remoteMessage.getData().get("bayar").equals("false")) {
+                        preference = new UserPreference(this);
                         preference.setTunggu(false);
                         preference.setCekBayar(false);
-                    }
-                    else {
+                    } else {
 
+                    }
                     }
                 }
         }
@@ -68,12 +75,31 @@ public class FirebaseCloudMessagingService extends FirebaseMessagingService {
     public void notif(String tittle,String Body,Intent intent){
         PendingIntent pendingIntent = PendingIntent.getActivity(this, 0, intent, 0);
         NotificationManager mNotificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
-        NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(this, CHANNEL_ID)
-                .setContentIntent(pendingIntent)
-                .setSmallIcon(R.drawable.ic_chat_black_24dp)
-                .setContentTitle(tittle)
-                .setContentText(Body)
-                .setAutoCancel(true);
+        NotificationCompat.Builder mBuilder;
+        Uri uri = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+            mBuilder = new NotificationCompat.Builder(this, CHANNEL_ID)
+                    .setContentIntent(pendingIntent)
+                    .setSmallIcon(R.drawable.ic_chat_black_24dp)
+                    .setContentTitle(tittle)
+                    .setSound(uri)
+                    .setContentText(Html.fromHtml(Body, Html.FROM_HTML_MODE_COMPACT))
+                    .setAutoCancel(true);
+        } else {
+            mBuilder = new NotificationCompat.Builder(this, CHANNEL_ID)
+                    .setContentIntent(pendingIntent)
+                    .setSmallIcon(R.drawable.ic_chat_black_24dp)
+                    .setContentTitle(tittle)
+                    .setSound(uri)
+                    .setContentText(Html.fromHtml(Body))
+                    .setAutoCancel(true);
+        }
+//        NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(this, CHANNEL_ID)
+//                .setContentIntent(pendingIntent)
+//                .setSmallIcon(R.drawable.ic_chat_black_24dp)
+//                .setContentTitle(tittle)
+//                .setContentText(Body)
+//                .setAutoCancel(true);
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             NotificationChannel channel = new NotificationChannel(CHANNEL_ID, CHANNEL_NAME, NotificationManager.IMPORTANCE_DEFAULT);
             mBuilder.setChannelId(CHANNEL_ID);

@@ -39,13 +39,34 @@
             android:lineSpacingMultiplier="1"
             android:textColor="@android:color/black"/>
         <Button
-            android:background="@android:color/transparent"
+            android:id="@+id/telepon"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/activity_horizontal_margin"
+            android:layout_marginRight="@dimen/activity_horizontal_margin"
+            android:layout_marginBottom="@dimen/activity_vertical_margin"
+            android:background="@drawable/buttonstyle"
+            android:text="Telepon " />
+
+        <Button
+            android:id="@+id/website"
+            android:background="@drawable/buttonstyle"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="@dimen/activity_vertical_margin"
             android:layout_marginLeft="@dimen/activity_horizontal_margin"
             android:layout_marginRight="@dimen/activity_horizontal_margin"
             android:text="Cek Website " />
+
+        <TextView
+            android:id="@+id/alamathaji"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/activity_horizontal_margin"
+            android:layout_marginRight="@dimen/activity_horizontal_margin"
+            android:layout_marginBottom="@dimen/activity_vertical_margin"
+            android:lineSpacingMultiplier="1"
+            android:textColor="@android:color/black" />
     </LinearLayout>
 
 </ScrollView>

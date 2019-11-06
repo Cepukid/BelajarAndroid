@@ -2,13 +2,14 @@ package com.example.yukngaji;
 
 import android.app.ProgressDialog;
 import android.content.Intent;
-import android.support.annotation.NonNull;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
+
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.yukngaji.setting.UserPreference;
 import com.facebook.AccessToken;
@@ -32,7 +33,7 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.GoogleAuthProvider;
 
-public class Register extends AppCompatActivity {
+public class RegisterActivity extends AppCompatActivity {
     GoogleSignInClient mGoogleSignInClient;
     Button register;
     CallbackManager mCallbackManager;
@@ -44,17 +45,18 @@ public class Register extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register);
-        SignInButton signInButton = findViewById(R.id.sign_in_button);
+        SignInButton signInButton = findViewById(R.id.register_button);
         register=findViewById(R.id.buttonregister);
         mAuth = FirebaseAuth.getInstance();
         emailregister=findViewById(R.id.emailregister);
         passwordregister=findViewById(R.id.passwordregister);
-        pd = new ProgressDialog(Register.this);
+        pd = new ProgressDialog(RegisterActivity.this);
         GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
+                .requestIdToken(getString(R.string.default_web_client_id))
                 .requestEmail()
                 .build();
         mCallbackManager = CallbackManager.Factory.create();
-        LoginButton loginButton = findViewById(R.id.sign_in_fb);
+        LoginButton loginButton = findViewById(R.id.register_fb);
         loginButton.setReadPermissions("email", "public_profile");
         signInButton.setSize(SignInButton.SIZE_STANDARD);
         mGoogleSignInClient = GoogleSignIn.getClient(this, gso);
@@ -67,35 +69,39 @@ public class Register extends AppCompatActivity {
         register.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                pd.setMessage("Register");
-                pd.show();
-                String email = emailregister.getText().toString();
-                String password = passwordregister.getText().toString();
-                mAuth.createUserWithEmailAndPassword(email, password)
-                        .addOnCompleteListener(Register.this, new OnCompleteListener<AuthResult>() {
-                            @Override
-                            public void onComplete(@NonNull Task<AuthResult> task) {
-                                //Log.d("", "signIn:onComplete:" + task.isSuccessful());
-                                //hideProgressDialog();
-                                pd.dismiss();
-                                if (task.isSuccessful()) {
-                                    UserPreference preference=new UserPreference(Register.this);
-                                    FirebaseUser user = mAuth.getCurrentUser();
-                                    preference.setEmail(user.getEmail());
-                                    preference.setNama(user.getDisplayName());
-                                    preference.setUid(user.getUid());
-                                    Intent intent=new Intent(Register.this,MenuUtama.class);
-                                    startActivity(intent);
-                                    finish();
-                                    //onAuthSuccess(task.getResult().getUser());
-                                } else {
-                                    Toast.makeText(Register.this, "Sign In Failed",
-                                            Toast.LENGTH_SHORT).show();
-                                    pd.dismiss();
-                                }
-                            }
-                        });
-
+                if (emailregister.getText().toString().equals("")) {
+                    emailregister.setError("Nama belum di isi");
+                } else {
+                    if (passwordregister.getText().toString().equals("")) {
+                        passwordregister.setError("Password belum di isi");
+                    } else {
+                        pd.setMessage("RegisterActivity");
+                        pd.show();
+                        String email = emailregister.getText().toString();
+                        String password = passwordregister.getText().toString();
+                        mAuth.createUserWithEmailAndPassword(email, password)
+                                .addOnCompleteListener(RegisterActivity.this, new OnCompleteListener<AuthResult>() {
+                                    @Override
+                                    public void onComplete(@NonNull Task<AuthResult> task) {
+                                        pd.dismiss();
+                                        if (task.isSuccessful()) {
+                                            UserPreference preference = new UserPreference(RegisterActivity.this);
+                                            FirebaseUser user = mAuth.getCurrentUser();
+                                            preference.setEmail(user.getEmail());
+                                            preference.setNama(user.getDisplayName());
+                                            preference.setUid(user.getUid());
+                                            Intent intent = new Intent(RegisterActivity.this, MenuUtama.class);
+                                            startActivity(intent);
+                                            finish();
+                                        } else {
+                                            Toast.makeText(RegisterActivity.this, "Register Failed",
+                                                    Toast.LENGTH_SHORT).show();
+                                            pd.dismiss();
+                                        }
+                                    }
+                                });
+                    }
+                }
             }
         });
         loginButton.registerCallback(mCallbackManager, new FacebookCallback<LoginResult>() {
@@ -120,8 +126,6 @@ public class Register extends AppCompatActivity {
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-
-        // Result returned from launching the Intent from GoogleSignInClient.getSignInIntent(...);
         if (requestCode == 101) {
             Task<GoogleSignInAccount> task = GoogleSignIn.getSignedInAccountFromIntent(data);
             try {
@@ -141,12 +145,12 @@ public class Register extends AppCompatActivity {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         if (task.isSuccessful()) {
-                            UserPreference preference=new UserPreference(Register.this);
+                            UserPreference preference = new UserPreference(RegisterActivity.this);
                             FirebaseUser user = mAuth.getCurrentUser();
                             preference.setEmail(user.getEmail());
                             preference.setNama(user.getDisplayName());
                             preference.setUid(user.getUid());
-                            Intent intent=new Intent(Register.this,MenuUtama.class);
+                            Intent intent = new Intent(RegisterActivity.this, MenuUtama.class);
                             startActivity(intent);
                             finish();
                         } else {
@@ -158,7 +162,8 @@ public class Register extends AppCompatActivity {
                 });
     }
     private void handleFacebookAccessToken(AccessToken token) {
-
+        final FirebaseAuth mAuth;
+        mAuth = FirebaseAuth.getInstance();
         AuthCredential credential = FacebookAuthProvider.getCredential(token.getToken());
         mAuth.signInWithCredential(credential)
                 .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
@@ -167,11 +172,12 @@ public class Register extends AppCompatActivity {
                         if (task.isSuccessful()) {
                             // Sign in success, update UI with the signed-in user's information
                             FirebaseUser user = mAuth.getCurrentUser();
-                            Intent intent=new Intent(Register.this,MenuUtama.class);
+                            Intent intent = new Intent(RegisterActivity.this, MenuUtama.class);
                             startActivity(intent);
+                            finish();
                         } else {
                             // If sign in fails, display a message to the user.
-                            Toast.makeText(Register.this, "Authentication failed.",
+                            Toast.makeText(RegisterActivity.this, task.getException().getMessage(),
                                     Toast.LENGTH_SHORT).show();
                         }
 

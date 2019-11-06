@@ -1,9 +1,11 @@
 package com.example.yukngaji;
 
-import android.support.annotation.NonNull;
-import android.support.v7.app.AppCompatActivity;
+import android.os.Build;
 import android.os.Bundle;
-import android.support.v7.widget.RecyclerView;
+
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.yukngaji.ui.Adapter.HajiAdapter;
 import com.example.yukngaji.ui.Item.ItemHaji;
@@ -14,6 +16,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
+import java.util.Objects;
 
 public class HajiActivity extends AppCompatActivity {
     DatabaseReference reference;
@@ -26,6 +29,11 @@ public class HajiActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_haji);
         rvView = findViewById(R.id.rv_haji);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
+            Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
+        } else {
+            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        }
         setTitle("List Travel Haji");
         Tampildata();
     }

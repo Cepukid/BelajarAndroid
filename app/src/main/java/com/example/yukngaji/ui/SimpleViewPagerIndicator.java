@@ -1,18 +1,19 @@
 package com.example.yukngaji.ui;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import android.content.Context;
-import android.support.v4.view.ViewPager;
-import android.support.v4.view.ViewPager.OnPageChangeListener;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 
+import androidx.viewpager.widget.ViewPager;
+import androidx.viewpager.widget.ViewPager.OnPageChangeListener;
+
 import com.example.yukngaji.R;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * @author Jarrod Robins, Papercloud
@@ -59,8 +60,8 @@ public class SimpleViewPagerIndicator extends LinearLayout implements OnPageChan
     
     if (inflater != null) {
       inflater.inflate(R.layout.view_pager_indicator, this);
-    
-      itemContainer = (LinearLayout) findViewById(R.id.pager_indicator_container);
+
+        itemContainer = findViewById(R.id.pager_indicator_container);
       
       items = new ArrayList<ImageView>();
     }

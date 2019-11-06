@@ -1,15 +1,18 @@
 package com.example.yukngaji;
 
+import android.os.Build;
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
+
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.yukngaji.db.Bookmarkhelper;
-import com.example.yukngaji.ui.Item.itembokmark;
 import com.example.yukngaji.ui.Adapter.BookmarkAdapter;
+import com.example.yukngaji.ui.Item.itembokmark;
 
 import java.util.ArrayList;
+import java.util.Objects;
 
 public class BookmarkActivity extends AppCompatActivity {
     private itembokmark itembokmarks;
@@ -22,6 +25,11 @@ public class BookmarkActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_bookmark);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
+            Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
+        } else {
+            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        }
         bookmarkhelper=Bookmarkhelper.getInstance(getApplicationContext());
         rvbookmark = findViewById(R.id.rv__bookmark);
         setTitle("Bookmark");

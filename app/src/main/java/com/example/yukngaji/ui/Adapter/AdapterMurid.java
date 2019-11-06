@@ -2,17 +2,21 @@ package com.example.yukngaji.ui.Adapter;
 
 import android.content.Context;
 import android.content.Intent;
-import android.support.annotation.NonNull;
-import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import androidx.annotation.NonNull;
+import androidx.recyclerview.widget.RecyclerView;
+
 import com.example.yukngaji.ChatActivity;
 import com.example.yukngaji.ListChatMurid;
 import com.example.yukngaji.ListMurid;
+import com.example.yukngaji.ListRaportMurid;
+import com.example.yukngaji.ProfilMurid;
 import com.example.yukngaji.R;
+import com.example.yukngaji.RaportActivity;
 import com.example.yukngaji.ui.Item.itemmurid;
 
 import java.util.ArrayList;
@@ -37,22 +41,35 @@ public class AdapterMurid extends RecyclerView.Adapter<AdapterMurid.ViewHolder> 
 
     @Override
     public void onBindViewHolder(@NonNull AdapterMurid.ViewHolder viewHolder, final int i) {
-        viewHolder.name.setText(items.get(i).getName());
+        viewHolder.name.setText(items.get(i).getNamaMurid());
         if ( this.context instanceof ListChatMurid) {
             viewHolder.itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     Intent intent=new Intent(context, ChatActivity.class);
-                    intent.putExtra("uid", items.get(i).getUid());
-                    intent.putExtra("nama", items.get(i).getName());
+                    intent.putExtra("uid", items.get(i).getUidMurid());
+                    intent.putExtra("nama", items.get(i).getNamaMurid());
                     context.startActivity(intent);
                 }
             });
         }else if(this.context instanceof ListMurid){
-            Intent intent=new Intent(context, ChatActivity.class);
-            intent.putExtra("uid", items.get(i).getUid());
-            intent.putExtra("nama", items.get(i).getName());
-            context.startActivity(intent);
+            viewHolder.itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent intent = new Intent(context, ProfilMurid.class);
+                    intent.putExtra("uid", items.get(i).getUidMurid());
+                    context.startActivity(intent);
+                }
+            });
+        } else if (this.context instanceof ListRaportMurid) {
+            viewHolder.itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent intent = new Intent(context, RaportActivity.class);
+                    intent.putExtra("uid", items.get(i).getUidMurid());
+                    context.startActivity(intent);
+                }
+            });
         }
     }
 

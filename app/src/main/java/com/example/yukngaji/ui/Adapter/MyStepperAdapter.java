@@ -2,9 +2,10 @@ package com.example.yukngaji.ui.Adapter;
 
 import android.content.Context;
 import android.os.Bundle;
-import android.support.annotation.IntRange;
-import android.support.annotation.NonNull;
-import android.support.v4.app.FragmentManager;
+
+import androidx.annotation.IntRange;
+import androidx.annotation.NonNull;
+import androidx.fragment.app.FragmentManager;
 
 import com.example.yukngaji.yukngaji.DataDiriFragment;
 import com.example.yukngaji.yukngaji.DataMengajiFragment;

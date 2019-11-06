@@ -1,19 +1,22 @@
 package com.example.yukngaji;
 
 import android.app.AlertDialog;
+import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
-import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Filter;
 import android.widget.Filterable;
 import android.widget.TextView;
+
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.android.volley.DefaultRetryPolicy;
 import com.android.volley.Request;
@@ -31,21 +34,30 @@ import org.json.JSONArray;
 import org.json.JSONException;
 
 import java.util.ArrayList;
+import java.util.Objects;
 
 public class List_ayat extends AppCompatActivity {
     private RecyclerView mRecyclerView;
     private ListAdapter mListadapter;
     private Bookmarkhelper bookmarkhelper;
     String no,message ;
-
+    ProgressDialog pd;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_list_ayat);
         final Intent intent = getIntent();
+        pd = new ProgressDialog(List_ayat.this);
+        pd.setMessage("Loading...");
+        pd.show();
         message= intent.getStringExtra("namasurat");
         no= intent.getStringExtra("nomorsurat");
         setTitle(message);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
+            Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
+        } else {
+            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        }
         bookmarkhelper=Bookmarkhelper.getInstance(getApplicationContext());
         mRecyclerView=findViewById(R.id.rv__ayat);
         final LinearLayoutManager layoutManager = new LinearLayoutManager(this);
@@ -67,6 +79,7 @@ public class List_ayat extends AppCompatActivity {
                     }
                     mListadapter = new ListAdapter(data,data);
                     mRecyclerView.setAdapter(mListadapter);
+                    pd.dismiss();
                     if (intent.hasExtra("nomorayat")) {
                         mRecyclerView.getLayoutManager().scrollToPosition(intent.getIntExtra("nomorayat",0));
                     } else {
@@ -113,7 +126,9 @@ public class List_ayat extends AppCompatActivity {
                 .setCancelable(false)
                 .setPositiveButton("Ya", new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {
+                        bookmarkhelper.open();
                             bookmarkhelper.insertNote(Itembokmarks);
+                        bookmarkhelper.close();
                             finish();
                     }
                 })

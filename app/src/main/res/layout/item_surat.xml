@@ -1,67 +1,84 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.v7.widget.CardView
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="70dp"
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:layout_marginBottom="5dp"
-    android:layout_marginLeft="10dp"
-    android:layout_marginRight="10dp">
-    <RelativeLayout
+    android:layout_height="wrap_content"
+    android:layout_margin="10dp">
+
+
+    <LinearLayout
+        android:layout_height="wrap_content"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/nomorsurat"
-            android:text="1"
-            android:textSize="25sp"
-            android:layout_marginLeft="15dp"
-            android:layout_marginTop="18dp"/>
-        <TextView
-            android:textStyle="bold"
-            android:layout_toRightOf="@+id/nomorsurat"
-            android:id="@+id/Katasurat"
-            android:layout_marginTop="10dp"
-            android:layout_marginLeft="10dp"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Surat"
-            android:textSize="20sp"/>
-        <TextView
-            android:textStyle="bold"
-            android:layout_toRightOf="@+id/Katasurat"
-            android:layout_marginTop="10dp"
-            android:layout_marginLeft="5dp"
-            android:id="@+id/namaayat"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Nama Surat"
-            android:textSize="20sp"/>
-        <TextView
-            android:layout_below="@+id/Katasurat"
-            android:layout_toRightOf="@+id/nomorsurat"
-            android:layout_marginLeft="10dp"
-            android:id="@+id/turunayat"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Madani"
-            android:textSize="18sp"/>
-        <TextView
-            android:layout_below="@+id/Katasurat"
-            android:layout_toRightOf="@+id/turunayat"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="  -  "
-            android:textSize="18sp"
-            android:id="@+id/penghubung"/>
-        <TextView
-            android:layout_below="@+id/Katasurat"
-            android:layout_toRightOf="@+id/penghubung"
-            android:id="@+id/artisurat"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Sapi Betina"
-            android:textSize="18sp"/>
-    </RelativeLayout>
-</android.support.v7.widget.CardView>
+        android:layout_margin="3dp"
+        android:orientation="horizontal">
+
+        <RelativeLayout
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:background="@drawable/ic_bg_row">
+
+            <TextView
+                android:id="@+id/nomorsurat"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true" />
+        </RelativeLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="horizontal">
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:layout_marginStart="10dp"
+                android:layout_marginLeft="10dp"
+                android:layout_weight="1"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/namaayat"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="#313131"
+                    android:textSize="17sp"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/artisurat"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="12sp"
+                    android:textStyle="italic" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/rowJumlahAyat"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:textColor="@color/colorPrimaryDark"
+                    android:textSize="13sp"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="8dp"
+                    android:gravity="center"
+                    android:textSize="12sp" />
+
+            </LinearLayout>
+
+        </LinearLayout>
+    </LinearLayout>
+
+</androidx.cardview.widget.CardView>

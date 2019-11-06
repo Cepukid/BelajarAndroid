@@ -8,8 +8,8 @@ import com.example.yukngaji.ui.Item.itemdaftar;
 public class UserPreference {
     private static final String PREFS_NAME = "user_pref";
     private static final String Firtsrun = "Firtsrun";
-    private static final String Nama = "Email";
-    private static final String Email = "Email";
+    private static final String Nama = "email";
+    private static final String Email = "email";
     private static final String Uid = "Uid";
     private static final String Cekbayar = "cekbayar";
     private static final String Cekdaftar = "cekdaftar";
@@ -113,12 +113,10 @@ public class UserPreference {
         editor.apply();
     }
 
-    public void setDataMengaji(String Jenjang,String Tanggal,String PrefGuru,String Paket){
+    public void setDataMengaji(String Jenjang, String PrefGuru) {
         SharedPreferences.Editor editor = preferences.edit();
         editor.putString("Jenjang", Jenjang);
-        editor.putString("Tanggal", Tanggal);
         editor.putString("PrefGuru", PrefGuru);
-        editor.putString("Paket", Paket);
         editor.apply();
     }
     public void setLokasiMengaji(String Provinsi,String kota,String Kecamatan,String Alamat){

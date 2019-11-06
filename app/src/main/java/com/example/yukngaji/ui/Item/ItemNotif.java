@@ -1,19 +1,24 @@
 package com.example.yukngaji.ui.Item;
 
-public class ItemNotif {
-    public String judul;
-    public String gambar;
-    public String description;
+import java.io.Serializable;
 
+public class ItemNotif implements Serializable {
+    private String judul;
+    private String gambar;
+    private String deskripsi;
 
-    public ItemNotif() {
-    }
     public String getJudul() {
         return judul;
     }
 
-    public void setJudul(String judul) {
+    public ItemNotif(String judul, String gambar, String description) {
         this.judul = judul;
+        this.gambar = gambar;
+        this.deskripsi = description;
+    }
+
+    public ItemNotif() {
+
     }
 
     public String getGambar() {
@@ -25,10 +30,10 @@ public class ItemNotif {
     }
 
     public String getDescription() {
-        return description;
+        return deskripsi;
     }
 
     public void setDescription(String description) {
-        this.description = description;
+        this.deskripsi = description;
     }
 }

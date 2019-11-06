@@ -9,7 +9,7 @@
     <string name="nav_header_subtitle">android.studio@android.com</string>
     <string name="nav_header_desc">Navigation header</string>
     <string name="action_settings">Settings</string>
-
+    <string name="facebook_app_id">296707601262059</string>
     <string name="menu_home">Home</string>
     <string name="menu_gallery">Gallery</string>
     <string name="menu_slideshow">Slideshow</string>
@@ -19,7 +19,7 @@
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="title_activity_silabus">Silabus</string>
-    <string name="SdanK">Terms and Condition\n\n
+    <string name="SdanK">
 By downloading, installing, and/or using the SM application (the "Application"), you agree that you have read, understood and accepted and agreed to these Terms of Use ("Terms of Use"). These Terms of Use constitute a legal agreement between you and PT Muda Luar Biasa  and apply to your visit to and use of our website at www.sahabatmengaji.com ("Website"), the Service and the Application (as defined below).\n\n
 
 Please cancel your account (if you have signed up for the Application) and permanently delete the Application from your device if you do not agree or wish to enter into the Terms of Use.\n\n
@@ -144,4 +144,12 @@ SM is not directly responsible for accidents involving SMdrivers to either damag
 PT Muda Luar Biasa  provides coverage for all our GO-RIDE customers. Accident coverage is up to Rp. 10,000,000* and medical expenses are covered up to Rp. 5,000,000*.\n\n
 SM also provides insurance for lost items up to Rp. 10,000,000** ,as long as the goods are in accordance with the information provided (point 1). Nominal reimbursement will be based on the receipt of purchase and/or reference to the fair value of the price of goods.\n\n
 Voucher codes are strictly valid for one voucher per account within every promotion.</string>
+    <string name="SKIP">Skip</string>
+    <string name="GOT_IT">Selesai</string>
+    <string-array name="listkelas">
+        <item>Kelas 1</item>
+        <item>Kelas 2</item>
+        <item>Kelas 3</item>
+        <item>Kelas Al-quran</item>
+    </string-array>
 </resources>

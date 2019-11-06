@@ -1,23 +1,24 @@
 package com.example.yukngaji.ui.Item;
 
 public class itemmurid {
-    public String name;
-    public String uid;
+    private String NamaMurid;
+    private String UidMurid;
     public itemmurid() {
     }
-    public String getName() {
-        return name;
+
+    public String getNamaMurid() {
+        return NamaMurid;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setNamaMurid(String namaMurid) {
+        NamaMurid = namaMurid;
     }
 
-    public String getUid() {
-        return uid;
+    public String getUidMurid() {
+        return UidMurid;
     }
 
-    public void setUid(String uid) {
-        this.uid = uid;
+    public void setUidMurid(String uidMurid) {
+        UidMurid = uidMurid;
     }
 }

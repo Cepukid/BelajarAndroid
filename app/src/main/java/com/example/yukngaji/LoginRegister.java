@@ -2,12 +2,13 @@ package com.example.yukngaji;
 
 import android.content.Intent;
 import android.os.Build;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.Button;
+
+import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -29,13 +30,15 @@ public class LoginRegister extends AppCompatActivity {
             public void onClick(View v) {
                 Intent intent=new Intent(LoginRegister.this,LoginActivity.class);
                 startActivity(intent);
+                finish();
             }
         });
         daftar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent=new Intent(LoginRegister.this,Register.class);
+                Intent intent = new Intent(LoginRegister.this, RegisterActivity.class);
                 startActivity(intent);
+                finish();
             }
         });
         ceklogin();

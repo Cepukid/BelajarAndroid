@@ -29,21 +29,11 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
-                android:text="Term of Services"
+                android:text="Terms and Condition"
                 android:textAppearance="@style/Base.TextAppearance.AppCompat.Title"
                 android:textColor="@color/teal_500"
                 android:textStyle="bold"
                 app:fontFamily="serif" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:text="last update January 2018"
-                android:textAppearance="@style/Base.TextAppearance.AppCompat.Caption"
-                android:textColor="@color/teal_200"
-                android:textStyle="italic"
-                app:fontFamily="serif" />
-
         </LinearLayout>
 
 
@@ -54,7 +44,7 @@
         android:layout_height="1dp"
         android:background="@color/teal_100" />
 
-    <android.support.v4.widget.NestedScrollView
+    <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1"
@@ -70,6 +60,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:gravity="center_vertical"
+                android:justificationMode="inter_word"
                 android:lineSpacingExtra="@dimen/spacing_small"
                 android:text="@string/SdanK"
                 android:textAppearance="@style/TextAppearance.AppCompat.Body1"
@@ -78,7 +69,7 @@
 
         </LinearLayout>
 
-    </android.support.v4.widget.NestedScrollView>
+    </androidx.core.widget.NestedScrollView>
 
     <View
         android:layout_width="match_parent"

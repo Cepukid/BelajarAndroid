@@ -5,20 +5,9 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.PorterDuff;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
-import android.support.v4.content.ContextCompat;
-import android.support.v4.view.GravityCompat;
-import android.support.v4.view.PagerAdapter;
-import android.support.v4.view.ViewPager;
-import android.support.v7.app.ActionBarDrawerToggle;
 import android.view.LayoutInflater;
-import android.view.MenuItem;
-import android.support.design.widget.NavigationView;
-import android.support.v4.widget.DrawerLayout;
-
-import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
 import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
@@ -27,14 +16,27 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.ActionBarDrawerToggle;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
+import androidx.core.content.ContextCompat;
+import androidx.core.view.GravityCompat;
+import androidx.drawerlayout.widget.DrawerLayout;
+import androidx.viewpager.widget.PagerAdapter;
+import androidx.viewpager.widget.ViewPager;
+
 import com.balysv.materialripple.MaterialRippleLayout;
 import com.example.yukngaji.setting.UserPreference;
 import com.example.yukngaji.ui.Item.Image;
 import com.example.yukngaji.ui.Item.ItemNotif;
 import com.example.yukngaji.ui.Utils.Tools;
+import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.AdView;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
+import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.GetTokenResult;
@@ -53,12 +55,13 @@ import java.util.List;
 public class MenuUtama extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
     private FirebaseAuth mAuth;
-    TextView nama,email;
+    TextView nama, status;
     UserPreference preference;
     LinearLayout Yukngaji,Raport,AlQuran,SuratPendek,JadwalSholat,store,haji,Chat;
     private ViewPager viewPager;
     private LinearLayout layout_dots;
     private AdapterImageSlider adapterImageSlider;
+    private AdView mAdView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -74,29 +77,44 @@ public class MenuUtama extends AppCompatActivity
         Chat=findViewById(R.id.Chat);
         Yukngaji=findViewById(R.id.YukNgaji);
         Raport=findViewById(R.id.Rapot);
+        JadwalSholat = findViewById(R.id.jadwaadzan);
         preference=new UserPreference(this);
+        preference.setFirtsrun(false);
         FirebaseUser user = mAuth.getCurrentUser();
         user.getIdToken(false).addOnSuccessListener(new OnSuccessListener<GetTokenResult>() {
             @Override
             public void onSuccess(GetTokenResult result) {
-                Object isGuru = result.getClaims().get("guru");
+                Object isGuru = result.getClaims().get("Guru");
+                Object isdaftar = result.getClaims().get("uidguru");
                 if(isGuru!=null){
                     preference.setGuru(true);
+                }
+                if (isdaftar != null) {
+                    preference.setCekBayar(true);
+                    preference.setTunggu(true);
+                    preference.setUidGuru(isdaftar.toString());
                 }
             }
         });
         initComponent();
-        //MobileAds.initialize(this, "ca-app-pub-3940256099942544~3347511713");
-//        AdView adView = new AdView(this);
-//        adView.setAdSize(AdSize.SMART_BANNER);
-//        adView.setAdUnitId("ca-app-pub-3940256099942544/6300978111");
+        AdView adBanner;
+        AdRequest adRequest;
+        adBanner = findViewById(R.id.adView);
+
+        adRequest = new AdRequest.Builder().addTestDevice("B698A7FF859996A519A36D901F34D23C").build();
+
+        adBanner.loadAd(adRequest);
         DrawerLayout drawer = findViewById(R.id.drawer_layout);
         NavigationView navigationView = findViewById(R.id.nav_view);
         View headerView = navigationView.getHeaderView(0);
         nama=headerView.findViewById(R.id.namaprofil);
-        email=headerView.findViewById(R.id.emailprofil);
+        status = headerView.findViewById(R.id.statusprofil);
         nama.setText(preference.getNama());
-        email.setText(preference.getEmail());
+        if (preference.getGuru()) {
+            status.setText("GURU");
+        } else {
+            status.setText("MURID");
+        }
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
                 this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
         drawer.addDrawerListener(toggle);
@@ -164,25 +182,48 @@ public class MenuUtama extends AppCompatActivity
             @Override
             public void onClick(View v) {
                 UserPreference preference=new UserPreference(MenuUtama.this);
-                if(preference.getCekDaftar()& preference.getTunggu()){
-                    if(preference.getCekBayar()){
+                if (preference.getGuru()) {
+                    Intent intent = new Intent(MenuUtama.this, ListMurid.class);
+                    startActivity(intent);
+                } else {
+                    if (preference.getCekDaftar() & preference.getTunggu()) {
+                        if (preference.getCekBayar()) {
+                            Intent intent = new Intent(MenuUtama.this, ProfilGuru.class);
+                            startActivity(intent);
+                        } else {
+                            Intent intent = new Intent(MenuUtama.this, TungguKonfirmasi.class);
+                            startActivity(intent);
+                        }
+                    } else if (preference.getCekDaftar()) {
+                        Intent intent = new Intent(MenuUtama.this, Pembayaran.class);
+                        startActivity(intent);
+                    } else {
+                        Intent intent = new Intent(MenuUtama.this, Silabus.class);
+                        startActivity(intent);
                     }
-                    else {
-                    Intent intent=new Intent(MenuUtama.this,TungguKonfirmasi.class);
-                    startActivity(intent);}
-                }else if(preference.getCekDaftar()){
-                    Intent intent=new Intent(MenuUtama.this,Pembayaran.class);
-                    startActivity(intent);
-                }else {
-                    Intent intent=new Intent(MenuUtama.this,Silabus.class);
-                    startActivity(intent);
                 }
             }
         });
         Raport.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent=new Intent(MenuUtama.this,RaportActivity.class);
+                if (preference.getGuru()) {
+                    Intent intent = new Intent(MenuUtama.this, ListRaportMurid.class);
+                    startActivity(intent);
+                } else {
+                    if (preference.getCekBayar()) {
+                        Intent intent = new Intent(MenuUtama.this, RaportActivity.class);
+                        startActivity(intent);
+                    } else {
+                        Toast.makeText(MenuUtama.this, "Maaf Anda Belum Mendaftar", Toast.LENGTH_LONG).show();
+                    }
+                }
+            }
+        });
+        JadwalSholat.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(MenuUtama.this, JadwalSholat.class);
                 startActivity(intent);
             }
         });
@@ -235,7 +276,8 @@ public class MenuUtama extends AppCompatActivity
             Intent intent=new Intent(MenuUtama.this,FAQActivity.class);
             startActivity(intent);
         } else if (id == R.id.nav_hubungikami) {
-
+            Intent intent = new Intent(MenuUtama.this, HubungiKamiActivity.class);
+            startActivity(intent);
         } else if (id == R.id.nav_tentang) {
             Intent intent=new Intent(MenuUtama.this,TentangKamiActivity.class);
             startActivity(intent);
@@ -244,6 +286,7 @@ public class MenuUtama extends AppCompatActivity
             preference.setDaftar(false);
             preference.setTunggu(false);
             preference.setCekBayar(false);
+            preference.setGuru(false);
             Intent intent=new Intent(MenuUtama.this,LoginRegister.class);
             startActivity(intent);
             finish();
@@ -257,23 +300,23 @@ public class MenuUtama extends AppCompatActivity
     private void initComponent() {
         layout_dots =findViewById(R.id.layout_dots);
         viewPager =  findViewById(R.id.pager);
-        adapterImageSlider = new AdapterImageSlider(this, new ArrayList<Image>());
         DatabaseReference reference;
-        final List<Image> items=new ArrayList<>();
         reference = FirebaseDatabase.getInstance().getReference();
         reference.child("Promo").addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                final List<Image> items = new ArrayList<>();
                 for (DataSnapshot noteDataSnapshot : dataSnapshot.getChildren()) {
                     ItemNotif murid = noteDataSnapshot.getValue(ItemNotif.class);
                     Image obj = new Image();
                     obj.image = murid.getGambar();
                     items.add(obj);
-                    adapterImageSlider.setItems(items);
-                    viewPager.setAdapter(adapterImageSlider);
-                    viewPager.setCurrentItem(0);
-                    addBottomDots(layout_dots, adapterImageSlider.getCount(), 0);
                 }
+                adapterImageSlider = new AdapterImageSlider(MenuUtama.this, new ArrayList<Image>());
+                adapterImageSlider.setItems(items);
+                viewPager.setAdapter(adapterImageSlider);
+                viewPager.setCurrentItem(0);
+                addBottomDots(layout_dots, adapterImageSlider.getCount(), 0);
             }
             @Override
             public void onCancelled(@NonNull DatabaseError databaseError) {

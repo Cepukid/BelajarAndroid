@@ -1,7 +1,8 @@
 package com.example.yukngaji;
 
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+
+import androidx.appcompat.app.AppCompatActivity;
 
 public class PromoActivity extends AppCompatActivity {
 
@@ -9,5 +10,6 @@ public class PromoActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_promo);
+
     }
 }

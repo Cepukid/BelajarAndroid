@@ -5,29 +5,25 @@ import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
-import android.support.v4.app.Fragment;
 import android.util.Patterns;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
-import android.widget.TextView;
 
-import com.example.yukngaji.BayarActivity;
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.fragment.app.Fragment;
+
 import com.example.yukngaji.Pembayaran;
 import com.example.yukngaji.R;
 import com.example.yukngaji.setting.UserPreference;
 import com.example.yukngaji.ui.Item.itemdaftar;
-import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.iid.FirebaseInstanceId;
-import com.google.firebase.iid.InstanceIdResult;
 import com.stepstone.stepper.BlockingStep;
 import com.stepstone.stepper.StepperLayout;
 import com.stepstone.stepper.VerificationError;
@@ -65,7 +61,7 @@ public class DataDiriFragment extends Fragment implements BlockingStep {
             txt_nama.setError("Nama belum di isi");
         }else {
             if(!Cekemailvalid(txt_email.getText())){
-                txt_email.setError("Email Salah");
+                txt_email.setError("email Salah");
             }else{
                 if(txt_nohp.getText().toString().length()<10){
                     txt_nohp.setError("Masukkan Nomor");

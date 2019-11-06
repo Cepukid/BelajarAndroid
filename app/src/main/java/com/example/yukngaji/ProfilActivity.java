@@ -1,14 +1,16 @@
 package com.example.yukngaji;
 
-import android.support.annotation.NonNull;
-import android.support.v7.app.AppCompatActivity;
+import android.os.Build;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
+
+import com.example.yukngaji.setting.UserPreference;
 import com.example.yukngaji.ui.Item.ItemProfil;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
@@ -17,6 +19,8 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+
+import java.util.Objects;
 
 public class ProfilActivity extends AppCompatActivity {
     EditText Nama,JenisKelamin,Provinsi,Kota,Kecamatan,Alamat,KodePos;
@@ -28,6 +32,12 @@ public class ProfilActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_profil);
+        setTitle("Profil");
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
+            Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
+        } else {
+            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        }
         Nama=findViewById(R.id.namalengkap);
         JenisKelamin=findViewById(R.id.JenisKelamin);
         Provinsi=findViewById(R.id.Provinsi);
@@ -110,6 +120,8 @@ public class ProfilActivity extends AppCompatActivity {
         String kecamatan=Kecamatan.getText().toString();
         String alamat=Alamat.getText().toString();
         String kodepos=KodePos.getText().toString();
+        UserPreference preference = new UserPreference(ProfilActivity.this);
+        preference.setNama(Nama.getText().toString());
         getReference = database.getReference();
         getReference.child("Profil").child(getUserID)
                 .setValue(new ItemProfil(nama,jeniskelamin,provinsi,kota,kecamatan,alamat,kodepos))

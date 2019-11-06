@@ -18,7 +18,6 @@ import static com.example.yukngaji.db.DatabaseContract.BookmarkColumns.NAMASURAT
 import static com.example.yukngaji.db.DatabaseContract.TABLE_Bookmark;
 
 public class Bookmarkhelper {
-    private static final String DATABASE_TABLE = TABLE_Bookmark;
     private static DatabaseHelper dataBaseHelper;
     private static Bookmarkhelper INSTANCE;
     private static SQLiteDatabase database;
@@ -46,7 +45,7 @@ public class Bookmarkhelper {
     }
     public ArrayList<itembokmark> getAllNotes() {
         ArrayList<itembokmark> arrayList = new ArrayList<>();
-        Cursor cursor = database.query(DATABASE_TABLE, null,
+        Cursor cursor = database.query(TABLE_Bookmark, null,
                 null,
                 null,
                 null,
@@ -75,30 +74,9 @@ public class Bookmarkhelper {
         args.put(IDSURAT, itembokmarks.getIdsurat());
         args.put(NAMASURAT, itembokmarks.getNamasurat());
         args.put(ARTISURAT, itembokmarks.getArti());
-        return database.insert(DATABASE_TABLE, null, args);
-    }
-    public int updateNote(itembokmark itembokmarks) {
-        ContentValues args = new ContentValues();
-        args.put(IDAYAT, itembokmarks.getIdayat());
-        args.put(IDSURAT, itembokmarks.getIdsurat());
-        args.put(NAMASURAT, itembokmarks.getNamasurat());
-        args.put(ARTISURAT, itembokmarks.getArti());
-        return database.update(DATABASE_TABLE, args, IDSURAT + "= '" + itembokmarks.getIdsurat() + "'", null);
+        return database.insert(TABLE_Bookmark, null, args);
     }
     public int deleteNote(String id) {
         return database.delete(TABLE_Bookmark, IDSURAT + " = '" + id + "'", null);
-    }
-    public Boolean cekNote(int id) {
-        Cursor c=database.query(DATABASE_TABLE,new String[] {IDSURAT},IDSURAT+ "=" + id,null,null,null,null);
-        boolean check = true;
-        if (c.moveToFirst())
-        {
-            if (c.isNull(c.getColumnIndex(IDSURAT)))
-            {
-                check = false;
-            }
-        }
-        c.close();
-        return check;
     }
 }

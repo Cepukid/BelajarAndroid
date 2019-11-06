@@ -1,12 +1,9 @@
 package com.example.yukngaji;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
-import android.support.v4.view.MenuItemCompat;
-import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.SearchView;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -15,6 +12,12 @@ import android.view.ViewGroup;
 import android.widget.Filter;
 import android.widget.Filterable;
 import android.widget.TextView;
+
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.SearchView;
+import androidx.core.view.MenuItemCompat;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.android.volley.DefaultRetryPolicy;
 import com.android.volley.Request;
@@ -30,15 +33,25 @@ import org.json.JSONArray;
 import org.json.JSONException;
 
 import java.util.ArrayList;
+import java.util.Objects;
 
 public class List_Surat extends AppCompatActivity {
     private RecyclerView mRecyclerView;
     private ListAdapter mListadapter;
+    ProgressDialog pd;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_list__surat);
         setTitle("Daftar Surat");
+        pd = new ProgressDialog(List_Surat.this);
+        pd.setMessage("Loading...");
+        pd.show();
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
+            Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
+        } else {
+            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        }
         mRecyclerView=findViewById(R.id.rv__surat);
         final LinearLayoutManager layoutManager = new LinearLayoutManager(this);
         layoutManager.setOrientation(LinearLayoutManager.VERTICAL);
@@ -54,17 +67,18 @@ public class List_Surat extends AppCompatActivity {
                         String nama=jsonObject.getJSONObject(i).getString("nama");
                         String nomor=jsonObject.getJSONObject(i).getString("nomor");
                         String arti=jsonObject.getJSONObject(i).getString("arti");
-                        String type=jsonObject.getJSONObject(i).getString("type");
                         if(getIntent().getStringExtra("kondisi").equals("true")){
-                        data.add(new itemsurat(nama,nomor,arti,type));}
+                            data.add(new itemsurat(nama, nomor, arti));
+                        }
                         else {
                             if(i>76){
-                                data.add(new itemsurat(nama,nomor,arti,type));
+                                data.add(new itemsurat(nama, nomor, arti));
                             }
                         }
                     }
                     mListadapter = new ListAdapter(data,data);
                     mRecyclerView.setAdapter(mListadapter);
+                    pd.dismiss();
 //                    mRecyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
 //                        @Override
 //                        public void onScrolled(@NonNull RecyclerView recyclerView, int dx, int dy) {
@@ -133,13 +147,12 @@ public class List_Surat extends AppCompatActivity {
 
         public class ViewHolder extends RecyclerView.ViewHolder
         {
-            TextView nama,nomor,tempatturun,arti;
+            TextView nama, nomor, arti;
             public ViewHolder(View itemView)
             {
                 super(itemView);
                 this.arti=itemView.findViewById(R.id.artisurat);
                 this.nomor=itemView.findViewById(R.id.nomorsurat);
-                this.tempatturun=itemView.findViewById(R.id.turunayat);
                 this.nama = itemView.findViewById(R.id.namaayat);
             }
         }
@@ -158,7 +171,6 @@ public class List_Surat extends AppCompatActivity {
             holder.nama.setText(dataList.get(position).getNama());
             holder.nomor.setText(dataList.get(position).getNomor());
             holder.arti.setText(dataList.get(position).getArti());
-            holder.tempatturun.setText(dataList.get(position).getTempatTurun());
             holder.itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {

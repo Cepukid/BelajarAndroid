@@ -1,4 +1,4 @@
-package com.example.yukngaji;
+package com.example.yukngaji.ui.Adapter;
 
 import android.app.Activity;
 import android.content.Context;
@@ -7,6 +7,9 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.TextView;
+
+import com.example.yukngaji.R;
+import com.example.yukngaji.itempesan;
 
 import java.util.ArrayList;
 import java.util.List;

@@ -5,13 +5,34 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".Silabus">
-    <android.support.design.widget.AppBarLayout
+
+    <Button
+        android:id="@+id/daftarsekarang"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="@dimen/activity_horizontal_margin"
+        android:background="@drawable/buttonstyle"
+        android:text="Daftar Sekarang" />
+
+    <androidx.viewpager.widget.ViewPager
+        android:id="@+id/viewsilabus"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_above="@+id/daftarsekarang"
+        android:layout_below="@id/tab_layout"
+        android:layout_marginBottom="@dimen/activity_horizontal_margin"
+        android:paddingVertical="@dimen/activity_horizontal_margin"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior" />
+
+    <com.google.android.material.appbar.AppBarLayout
         android:id="@+id/appBar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:theme="@style/AppTheme.AppBarOverlay">
 
-        <android.support.v7.widget.Toolbar
+        <androidx.appcompat.widget.Toolbar
             android:id="@+id/toolbar"
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
@@ -22,30 +43,17 @@
                 android:layout_height="40dp"
                 android:layout_gravity="center"
                 android:src="@drawable/logo_dasar"/>
-        </android.support.v7.widget.Toolbar>
-    </android.support.design.widget.AppBarLayout>
-    <android.support.design.widget.TabLayout
+        </androidx.appcompat.widget.Toolbar>
+    </com.google.android.material.appbar.AppBarLayout>
+
+    <com.google.android.material.tabs.TabLayout
         android:layout_below="@id/appBar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/tab_layout"
-        android:background="@color/colorPrimary"
-        app:tabTextColor="#FFFFFF"
+        android:background="#FFFFFF"
+        app:tabSelectedTextColor="@color/ms_black"
         app:tabMode="fixed"
-        app:tabSelectedTextColor="#FFFFFF">
-    </android.support.design.widget.TabLayout>
-    <android.support.v4.view.ViewPager
-        android:layout_below="@id/tab_layout"
-        android:id="@+id/viewsilabus"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        app:layout_behavior="@string/appbar_scrolling_view_behavior" />
-    <Button
-        android:id="@+id/daftarsekarang"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@drawable/buttonstyle"
-        android:text="Daftar Sekarang"
-        android:layout_alignParentBottom="true"/>
+        app:tabTextColor="@color/ms_black"></com.google.android.material.tabs.TabLayout>
 
 </RelativeLayout>

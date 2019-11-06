@@ -2,14 +2,18 @@ package com.example.yukngaji.ui.Adapter;
 
 import android.content.Context;
 import android.content.Intent;
-import android.support.annotation.NonNull;
-import android.support.v7.widget.RecyclerView;
+import android.os.Build;
+import android.text.Html;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import androidx.annotation.NonNull;
+import androidx.recyclerview.widget.RecyclerView;
+
+import com.bumptech.glide.Glide;
 import com.example.yukngaji.PenjelasanHaji;
 import com.example.yukngaji.R;
 import com.example.yukngaji.ui.Item.ItemHaji;
@@ -35,7 +39,16 @@ public class HajiAdapter extends RecyclerView.Adapter<HajiAdapter.ViewHolder>{
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, final int position) {
         holder.Nama.setText(dataList.get(position).getNama());
-        holder.Penjelasan.setText(dataList.get(position).getPenjelasan());
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+            holder.Penjelasan.setText(Html.fromHtml(dataList.get(position).getDeskripsi(), Html.FROM_HTML_MODE_COMPACT));
+        } else {
+            holder.Penjelasan.setText(Html.fromHtml(dataList.get(position).getDeskripsi()));
+        }
+        Glide.with(context)
+                .load(dataList.get(position).getGambar())
+                .centerCrop()
+                .placeholder(R.drawable.ic_lock_black_24dp)
+                .into(holder.Gambar);
         holder.Selengkapnya.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

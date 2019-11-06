@@ -2,15 +2,14 @@ package com.example.yukngaji;
 
 import android.app.ProgressDialog;
 import android.content.Intent;
-import android.nfc.Tag;
-import android.support.annotation.NonNull;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
+
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.yukngaji.setting.UserPreference;
 import com.facebook.AccessToken;
@@ -69,35 +68,40 @@ public class LoginActivity extends AppCompatActivity {
         login.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                pd.setMessage("login");
-                pd.show();
-                String email = emaillogin.getText().toString();
-                String password = passwordlogin.getText().toString();
-                mAuth.signInWithEmailAndPassword(email, password)
-                        .addOnCompleteListener(LoginActivity.this, new OnCompleteListener<AuthResult>() {
-                            @Override
-                            public void onComplete(@NonNull Task<AuthResult> task) {
-                                //Log.d("", "signIn:onComplete:" + task.isSuccessful());
-                                //hideProgressDialog();
-                                pd.dismiss();
-                                if (task.isSuccessful()) {
-                                    UserPreference preference=new UserPreference(LoginActivity.this);
-                                    FirebaseUser user = mAuth.getCurrentUser();
-                                    preference.setEmail(user.getEmail());
-                                    preference.setNama(user.getDisplayName());
-                                    preference.setUid(user.getUid());
-                                    Intent intent=new Intent(LoginActivity.this,MenuUtama.class);
-                                    startActivity(intent);
-                                    finish();
-                                    //onAuthSuccess(task.getResult().getUser());
-                                } else {
-                                    Toast.makeText(LoginActivity.this, "Sign In Failed",
-                                            Toast.LENGTH_SHORT).show();
-                                    pd.dismiss();
-                                }
-                            }
-                        });
-
+                if (emaillogin.getText().toString().equals("")) {
+                    emaillogin.setError("Email belum di isi");
+                } else {
+                    if (passwordlogin.getText().toString().equals("")) {
+                        passwordlogin.setError("Password belum di isi");
+                    } else {
+                        pd.setMessage("login");
+                        pd.show();
+                        String email = emaillogin.getText().toString();
+                        String password = passwordlogin.getText().toString();
+                        mAuth.signInWithEmailAndPassword(email, password)
+                                .addOnCompleteListener(LoginActivity.this, new OnCompleteListener<AuthResult>() {
+                                    @Override
+                                    public void onComplete(@NonNull Task<AuthResult> task) {
+                                        pd.dismiss();
+                                        if (task.isSuccessful()) {
+                                            UserPreference preference = new UserPreference(LoginActivity.this);
+                                            FirebaseUser user = mAuth.getCurrentUser();
+                                            preference.setEmail(user.getEmail());
+                                            preference.setNama(user.getDisplayName());
+                                            preference.setUid(user.getUid());
+                                            preference.setGuru(false);
+                                            Intent intent = new Intent(LoginActivity.this, MenuUtama.class);
+                                            startActivity(intent);
+                                            finish();
+                                        } else {
+                                            Toast.makeText(LoginActivity.this, "Sign In Failed",
+                                                    Toast.LENGTH_SHORT).show();
+                                            pd.dismiss();
+                                        }
+                                    }
+                                });
+                    }
+                }
             }
         });
         loginButton.registerCallback(mCallbackManager, new FacebookCallback<LoginResult>() {
@@ -122,8 +126,6 @@ public class LoginActivity extends AppCompatActivity {
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-
-        // Result returned from launching the Intent from GoogleSignInClient.getSignInIntent(...);
         if (requestCode == 101) {
             Task<GoogleSignInAccount> task = GoogleSignIn.getSignedInAccountFromIntent(data);
             try {
@@ -133,7 +135,7 @@ public class LoginActivity extends AppCompatActivity {
             }
         }
         else {
-        mCallbackManager.onActivityResult(requestCode, resultCode, data);
+            mCallbackManager.onActivityResult(requestCode, resultCode, data);
         }
     }
     @Override
@@ -142,7 +144,8 @@ public class LoginActivity extends AppCompatActivity {
         ceklogin();
     }
     private void handleFacebookAccessToken(AccessToken token) {
-
+        final FirebaseAuth mAuth;
+        mAuth = FirebaseAuth.getInstance();
         AuthCredential credential = FacebookAuthProvider.getCredential(token.getToken());
         mAuth.signInWithCredential(credential)
                 .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
@@ -153,9 +156,10 @@ public class LoginActivity extends AppCompatActivity {
                             FirebaseUser user = mAuth.getCurrentUser();
                             Intent intent=new Intent(LoginActivity.this,MenuUtama.class);
                             startActivity(intent);
+                            finish();
                         } else {
                             // If sign in fails, display a message to the user.
-                            Toast.makeText(LoginActivity.this, "Authentication failed.",
+                            Toast.makeText(LoginActivity.this, task.getException().getMessage(),
                                     Toast.LENGTH_SHORT).show();
                         }
 
